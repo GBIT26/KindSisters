@@ -1,88 +1,102 @@
-# Kind Sisters iOS App
+# Kind Sisters - Community Support Website
 
-A native SwiftUI application for the Kind Sisters nonprofit organization.
+A responsive website for Kind Sisters, a grass-roots nonprofit organization dedicated to serving vulnerable groups of people and those suffering hardship in the City of Stirling and surrounding areas in Perth, Western Australia.
 
-[![iOS](https://img.shields.io/badge/iOS-17.0%2B-blue.svg)](https://developer.apple.com/ios/)
-[![SwiftUI](https://img.shields.io/badge/SwiftUI-5.9-orange.svg)](https://developer.apple.com/xcode/swiftui/)
-[![Swift](https://img.shields.io/badge/Swift-5.9-red.svg)](https://swift.org/)
-[![Xcode](https://img.shields.io/badge/Xcode-15.0%2B-blue.svg)](https://developer.apple.com/xcode/)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-## 📱 About This Project
+## 🌟 About Kind Sisters
 
-This iOS application serves the Kind Sisters nonprofit organization, providing an accessible mobile platform for community engagement, volunteer coordination, and donation management. Built with SwiftUI, the app demonstrates modern iOS development practices while serving a meaningful social purpose.
+Kind Sisters is committed to **creating space for community** by providing essential support services, resources, and safe spaces for individuals and families facing difficult circumstances.
 
-### Key Features
-- 🏠 **Home Dashboard** - Organization overview and quick access
-- ℹ️ **About Section** - Mission, team, and organizational information  
-- 📋 **Projects Hub** - Current initiatives and volunteer opportunities
-- 📞 **Contact Interface** - Multi-channel communication options
-- 💝 **Donation Portal** - Secure contribution and support options
-- 🚪 **Quick Exit** - Safety feature for sensitive situations
-- 🌙 **Dark Mode** - Automatic system theme support
-- ♿ **Accessibility** - VoiceOver and Dynamic Type support
+### Our Mission
+Supporting vulnerable communities and individuals facing hardship through compassionate, grass-roots initiatives that create lasting positive change.
 
-## 📖 Documentation
+### Our Services
+- Housing support and resources
+- Food security programs  
+- Skills training and development workshops
+- Crisis support and emergency assistance
+- Family and children's services
+- Community outreach and partnerships
 
-This project includes comprehensive documentation for academic and professional review:
+## 🚀 Website Features
 
-- **[📋 TEACHER_REPORT.md](TEACHER_REPORT.md)** - Academic project summary and assessment
-- **[🛠 DEVELOPMENT_REPORT.md](DEVELOPMENT_REPORT.md)** - Technical architecture and implementation details
-- **[🎨 DESIGN_REPORT.md](DESIGN_REPORT.md)** - UI/UX design decisions and visual system
-- **[📝 CHANGELOG.md](CHANGELOG.md)** - Complete version history and change tracking
-- **[👀 PREVIEW_GUIDE.md](PREVIEW_GUIDE.md)** - Development workflow and preview setup
+### Technical Implementation
+- **Responsive Design**: Mobile-first approach using Bootstrap 5
+- **Accessibility**: WCAG compliant with screen reader support
+- **Safety Features**: Quick exit functionality for user safety
+- **Contact Forms**: Working contact forms via Formspree integration
+- **Performance**: Optimized loading and modern web standards
 
-## 🚀 Quick Start
+### Key Components
+- **Hero Section**: Custom CSS with community-focused imagery
+- **Program Showcase**: Interactive cards highlighting services
+- **Contact System**: Functional contact forms with validation
+- **Donation Interface**: Clear donation options and alternative support methods
+- **Safety Features**: Quick exit and accessibility considerations
 
-### Option 1: Xcode Preview (Recommended)
+## 💻 Technology Stack
 
-1. **Open in Xcode:**
-   - Open Xcode on your Mac
-   - File → Open → Select the `KindSisters` folder
-   - Or drag the folder into Xcode
+- **Frontend**: HTML5, CSS3, Bootstrap 5
+- **Fonts**: Google Fonts (Red Hat Text, La Belle Aurore)
+- **Icons**: Font Awesome 6
+- **Forms**: Formspree for contact form processing
+- **Hosting**: GitHub Pages ready
+- **Version Control**: Git with comprehensive change tracking
 
-2. **Preview Individual Views:**
-   - Open any view file (e.g., `Views/HomeView.swift`)
-   - Click the "Resume" button in the preview canvas (right side)
-   - Or press: `Option + Command + P`
+## 🎨 Design System
 
-3. **Run in Simulator:**
-   - Select a device from the scheme selector (e.g., iPhone 15 Pro)
-   - Press `Command + R` to build and run
+### Brand Colors
+- **KS Pink**: `#D42278` (Primary brand color)
+- **KS Orange**: `#FF7F50` (Accent color)
+- **Light Pink**: `#F8E8F1` (Background elements)
+- **Dark Pink**: `#B01A5B` (Hover states)
 
-### Option 2: Quick Preview with Xcode Playground
+### Typography
+- **Primary Font**: Red Hat Text (Body text, headings)
+- **Accent Font**: La Belle Aurore (Hero title, decorative elements)
 
-1. Create a new Xcode Playground
-2. Copy the content from any view file
-3. Add this at the top:
-```swift
-import SwiftUI
-import PlaygroundSupport
+## 📱 Responsive Breakpoints
 
-// Paste view code here
+- **Desktop**: 1200px and up
+- **Tablet**: 768px - 1199px
+- **Mobile**: Below 768px
 
-PlaygroundPage.current.setLiveView(HomeView())
-```
+All components are fully responsive with mobile-first design principles.
 
-### Option 3: Create New Xcode Project
+## 🛡️ Safety & Accessibility Features
 
-If the files don't open directly:
+### Safety
+- **Quick Exit Button**: Immediate redirect to Google for user safety
+- **Keyboard Shortcut**: Triple ESC key press for quick exit
+- **Discreet Navigation**: User safety considerations throughout
 
-1. **Create New Project:**
-   - Open Xcode
-   - File → New → Project
-   - Choose "App" template
-   - Product Name: "KindSisters"
-   - Interface: SwiftUI
-   - Language: Swift
+### Accessibility
+- **ARIA Labels**: Comprehensive screen reader support
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Color Contrast**: WCAG AA compliant contrast ratios
+- **Focus States**: Clear focus indicators for all interactive elements
+- **Semantic HTML**: Proper heading structure and semantic markup
 
-2. **Replace Files:**
-   - Delete the default `ContentView.swift`
-   - Drag all files from this folder into your project
-   - Ensure "Copy items if needed" is checked
+## 🚀 Development Setup
 
-3. **Run the App:**
-   - Select your target device
-   - Press `Command + R`
+1. **Clone Repository**:
+   ```bash
+   git clone https://github.com/GBIT26/KindSisters.git
+   cd KindSisters
+   ```
+
+2. **Local Development**:
+   - Open `index.html` in a web browser
+   - Or use a local server: `python -m http.server 8000`
+
+3. **GitHub Pages Deployment**:
+   - Repository is configured for GitHub Pages
+   - Automatic deployment from main branch
+   - Access at: `https://gbit26.github.io/KindSisters/`
 
 ## Project Structure
 
