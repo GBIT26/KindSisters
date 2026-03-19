@@ -1,0 +1,1159 @@
+/* ============================================
+   Kind Sisters Website - Version A (Figma Replica)
+   Built with Bootstrap 5.3.2 + Custom CSS
+
+   This stylesheet extends Bootstrap's defaults with brand-specific
+   styles derived from the Kind Sisters Figma design. Bootstrap handles
+   the grid, responsive utilities, and base components; this file
+   layers on custom colours, typography, and component designs.
+   ============================================ */
+
+/* ---- CSS Custom Properties ----
+   Defined on :root so every rule in the stylesheet can reference them.
+   Benefits:
+   - Single source of truth for brand colours — change once, update everywhere.
+   - Keeps the design consistent with the Figma style guide.
+   - Makes future rebranding or theming straightforward without find-and-replace.
+*/
+:root {
+  /* Brand Colours (from Figma)
+     Pink is the primary brand colour; orange is the secondary accent.
+     Dark/light variants give us hover states and background tints without
+     introducing new hues that could drift off-brand. */
+  --ks-pink: #D42278;
+  --ks-dark-pink: #B01A5B;
+  --ks-light-pink: #F8E8F1;
+  --ks-pink-bg: #D42278;
+  --ks-orange: #EF8E04;
+  --ks-light-orange: #FFD79F;
+  --ks-dark-orange: #CC7A00;
+
+  /* Neutrals
+     --ks-dark (#333) is used for body text instead of pure black, which
+     reduces eye strain while still meeting WCAG AA contrast on white. */
+  --ks-white: #FFFFFF;
+  --ks-off-white: #F8F9FA;
+  --ks-dark: #333333;
+  --ks-medium-gray: #666666;
+  --ks-light-gray: #E9ECEF;
+  --ks-black: #000000;
+
+  /* Typography
+     La Belle Aurore provides a warm, handwritten feel for headings —
+     reflects the personal, community-driven brand.
+     Open Sans is a highly legible sans-serif for body text, chosen
+     for readability across devices and screen sizes. */
+  --font-heading: 'La Belle Aurore', cursive;
+  --font-body: 'Open Sans', sans-serif;
+
+  /* Spacing
+     Consistent section padding keeps vertical rhythm predictable.
+     Mobile values are tighter to avoid excessive whitespace on small screens. */
+  --section-py: 3rem;
+  --section-py-mobile: 2rem;
+
+  /* Border Radius
+     Three tiers: large for cards, pill-shape for buttons, small for inputs.
+     Rounded corners soften the UI and match the Figma designs. */
+  --radius-card: 15px;
+  --radius-btn: 25px;
+  --radius-sm: 8px;
+
+  /* Transitions
+     A single shared transition keeps animation timing consistent
+     across hover effects, focus states, and interactive elements. */
+  --transition: all 0.3s ease;
+}
+
+/* ---- Global Reset ----
+   Removes default browser margins/padding for consistent cross-browser rendering.
+   border-box ensures padding is included in width calculations, which prevents
+   layout surprises — especially important when mixing Bootstrap's grid with custom widths. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling for anchor links (e.g. skip-to-content).
+   Respects prefers-reduced-motion via the media query further down. */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ks-dark);
+  background-color: var(--ks-white);
+  overflow-x: hidden; /* Prevents horizontal scroll from any elements that overshoot viewport */
+}
+
+/* Fluid images — ensures no image breaks out of its container */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Base link styles use the brand pink for consistency */
+a {
+  color: var(--ks-pink);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--ks-dark-pink);
+}
+
+/* ---- Typography ----
+   Headings use the script font to maintain the warm, community feel
+   established in the Figma designs. font-weight: 400 because the
+   script typeface doesn't have bold variants — it's designed to look handwritten. */
+h1, h2, h3 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--ks-pink);
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
+/* Page title — used on sub-pages (Donate, About, etc.) as the main heading */
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  color: var(--ks-pink);
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Section titles in the script font — matches the Figma pattern used for
+   "Stories of Hope", "Corporate Sponsors", etc. */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--ks-black);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Alternate section titles in bold sans-serif — used where Figma specifies
+   a more structured look, e.g. "Our Mission", "Meet the Kind Sisters Team" */
+.section-title-sans {
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ks-black);
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- Quick Exit Bar ----
+   A domestic violence safety feature. Fixed in the top-right corner so it's
+   always reachable regardless of scroll position. z-index: 9999 keeps it
+   above all content except the lightbox overlay.
+   The button is deliberately subtle (dark, small) so it doesn't draw
+   attention from anyone nearby but is immediately findable by the user. */
+.quick-exit-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-quick-exit {
+  background: var(--ks-dark);
+  color: var(--ks-white);
+  border: 1px solid var(--ks-medium-gray);
+  padding: 0.3rem 1rem;
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-quick-exit:hover {
+  background: #555;
+  color: var(--ks-white);
+}
+
+/* ---- Header / Navigation ----
+   Uses Bootstrap's navbar component for responsive collapse behaviour.
+   Custom styles override Bootstrap defaults to match the Figma design. */
+.ks-header {
+  background: var(--ks-white);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05); /* Subtle separator without a harsh line */
+}
+
+.ks-header .navbar {
+  padding: 0.5rem 0;
+}
+
+/* Logo sizing — smaller on mobile to preserve space, larger on desktop
+   to give the brand prominence. Uses object-fit: contain to prevent distortion. */
+.ks-header .navbar-brand img {
+  height: 80px;
+  width: auto;
+  max-width: 300px;
+  object-fit: contain;
+}
+
+/* Desktop logo enlargement at Bootstrap's lg breakpoint (992px) */
+@media (min-width: 992px) {
+  .ks-header .navbar-brand img {
+    height: 150px;
+    max-width: 400px;
+  }
+}
+
+/* Nav links — semibold weight for readability, brand pink on hover/active */
+.ks-header .nav-link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ks-dark);
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+}
+
+.ks-header .nav-link:hover,
+.ks-header .nav-link.active {
+  color: var(--ks-pink);
+}
+
+/* Donate button in the nav — styled as a CTA pill button to stand out
+   from regular nav links. !important overrides Bootstrap's default link colours. */
+.btn-donate-nav {
+  background: var(--ks-pink);
+  color: var(--ks-white) !important;
+  border-radius: var(--radius-btn);
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  transition: var(--transition);
+}
+
+.btn-donate-nav:hover {
+  background: var(--ks-dark-pink);
+  color: var(--ks-white) !important;
+  transform: translateY(-1px); /* Subtle lift effect on hover for tactile feedback */
+}
+
+/* ---- Hero Section ----
+   Full-width hero with absolute-positioned overlay content.
+   The pink translucent box delivers the mission statement over the photo
+   without obscuring the imagery entirely. */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+/* object-fit: cover crops the image to fill the container while
+   maintaining aspect ratio — avoids stretching or letterboxing */
+.hero img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Overlay container — flexbox centres the pink info box vertically */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* Semi-transparent pink box — rgba keeps the hero photo partially visible
+   beneath the text. max-width prevents it from dominating the hero on desktop. */
+.hero-box {
+  background: rgba(212, 34, 120, 0.85);
+  color: var(--ks-white);
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius-sm);
+  max-width: 420px;
+}
+
+.hero-box p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Mobile hero box — hidden by default, shown on small screens via media query.
+   On mobile, the overlay box is too cramped over the photo, so we move it
+   below the image as a full-width block instead. */
+.hero-box-mobile {
+  display: none;
+}
+
+/* Tagline positioned at the bottom of the hero image.
+   text-shadow ensures readability regardless of the photo beneath it. */
+.hero-tagline {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--ks-white);
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  z-index: 2;
+}
+
+/* ---- CTA Buttons Row (Volunteer / Donate / Projects) ----
+   Full-width pink bar directly below the hero. Each item is a large
+   tap target for the three primary user actions. Dividers use semi-transparent
+   white borders so they're visible but not harsh. */
+.cta-row {
+  background: var(--ks-pink);
+  padding: 1.5rem 0;
+}
+
+.cta-row .cta-item {
+  color: var(--ks-white);
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  display: block;
+  transition: var(--transition);
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.cta-row .cta-item:last-child {
+  border-right: none;
+}
+
+.cta-row .cta-item:hover {
+  background: var(--ks-dark-pink);
+  color: var(--ks-white);
+}
+
+/* ---- Mission Section ----
+   Two-column layout (text + image) using Bootstrap's grid.
+   Section padding uses the custom property for consistent vertical spacing. */
+.mission-section {
+  padding: var(--section-py) 0;
+}
+
+/* Mission heading uses the script font left-aligned, matching the Figma layout */
+.mission-section h2 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--ks-black);
+  text-align: left;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.mission-section p {
+  font-size: 0.95rem;
+  line-height: 1.7; /* Slightly more generous line-height for paragraph readability */
+  color: var(--ks-dark);
+}
+
+.mission-section img {
+  border-radius: var(--radius-card);
+  object-fit: cover;
+}
+
+/* ---- Brushstroke CTA Button ----
+   Replicates the organic, hand-painted button from the Figma design.
+   The technique uses:
+   1. Asymmetric border-radius to create an irregular, paint-stroke shape
+   2. Layered CSS gradients to simulate paint texture highlights
+   3. An SVG turbulence filter for rough, natural-looking edges
+   This avoids the need for a background image, keeping the button scalable
+   and resolution-independent. */
+.btn-brushstroke {
+  display: inline-block;
+  position: relative;
+  color: var(--ks-white);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 3.5rem;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--ks-orange);
+  /* Asymmetric border-radius — four-value shorthand with slash separator
+     creates different horizontal/vertical curves for each corner,
+     giving an organic, hand-drawn outline */
+  border-radius: 2px 45px 3px 45px / 40px 3px 45px 2px;
+  min-width: 320px;
+  /* Layered semi-transparent gradients at different angles mimic
+     the streaks and highlights in a real brushstroke */
+  background-image:
+    linear-gradient(95deg, transparent 0%, rgba(255,255,255,0.12) 15%, transparent 30%),
+    linear-gradient(175deg, transparent 40%, rgba(255,255,255,0.08) 55%, transparent 70%),
+    linear-gradient(85deg, rgba(0,0,0,0.03) 0%, transparent 20%, rgba(255,255,255,0.06) 80%, transparent 100%);
+  /* SVG feTurbulence + feDisplacementMap creates micro-distortion along the
+     button edges — simulates rough, hand-painted edges without raster images */
+  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='r'%3E%3CfeTurbulence baseFrequency='0.03' numOctaves='2' seed='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='3'/%3E%3C/filter%3E%3C/svg%3E#r");
+}
+
+.btn-brushstroke:hover {
+  background-color: var(--ks-dark-orange);
+  color: var(--ks-white);
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ---- Stories of Hope / Testimonial Cards ----
+   Testimonials are presented as clickable pink cards that expand to reveal
+   full text. This accordion-style pattern keeps the section compact while
+   letting users read the stories they're interested in. */
+.stories-section {
+  padding: var(--section-py) 0;
+  background: var(--ks-white);
+}
+
+.card-testimonial {
+  background: var(--ks-pink);
+  color: var(--ks-white);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* Collapsed state — max-height clips the text to ~3 lines.
+   The transition on max-height creates a smooth expand/collapse animation. */
+.card-testimonial .testimonial-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-height: 4.5em; /* Approximately 3 lines of text at this font-size/line-height */
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+/* Expanded state — generous max-height ensures even long testimonials are fully visible */
+.card-testimonial.expanded .testimonial-text {
+  max-height: 500px;
+}
+
+.card-testimonial .testimonial-name {
+  font-weight: 700;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Hover lift effect with a brand-coloured shadow — gives depth and interactivity cues */
+.card-testimonial:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(212, 34, 120, 0.3);
+}
+
+/* ---- Newsletter Section ----
+   Two-column layout with form on the left, supporting image on the right.
+   Form inputs use brand-coloured borders for visual consistency. */
+.newsletter-section {
+  padding: var(--section-py) 0;
+}
+
+.newsletter-section h2 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--ks-black);
+  text-align: left;
+  font-size: 2.2rem;
+}
+
+/* Input borders and focus states use the brand pink for consistency.
+   The focus box-shadow provides a visible focus indicator that goes
+   beyond the default browser outline — better for accessibility. */
+.newsletter-section .form-control {
+  border: 2px solid var(--ks-pink);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem;
+}
+
+.newsletter-section .form-control:focus {
+  border-color: var(--ks-dark-pink);
+  box-shadow: 0 0 0 0.2rem rgba(212, 34, 120, 0.15);
+}
+
+/* Submit button uses a subtle brushstroke-style border-radius to match
+   the brand aesthetic without the full SVG filter treatment */
+.btn-submit {
+  background-color: var(--ks-pink);
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+  color: var(--ks-white);
+  border: none;
+  border-radius: 4px 20px 4px 20px;
+  padding: 0.5rem 1.8rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.btn-submit:hover {
+  background-color: var(--ks-dark-pink);
+  color: var(--ks-white);
+}
+
+/* ---- Corporate Sponsors ----
+   Sponsor logos are displayed at reduced opacity (0.8) by default and
+   brighten on hover — a common pattern that keeps the section visually
+   clean while still giving recognition to sponsors. */
+.sponsors-section {
+  padding: var(--section-py) 0;
+  text-align: center;
+}
+
+.sponsors-section img {
+  max-height: 80px;
+  margin: 1rem 1.5rem;
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.sponsors-section img:hover {
+  opacity: 1;
+}
+
+/* ---- Team Cards (About Page) ----
+   Flexbox column layout with height: 100% ensures all cards in a row
+   are equal height, regardless of content length — a common problem
+   with card grids that Bootstrap's h-100 class alone doesn't always solve. */
+.card-team {
+  text-align: center;
+  border: 2px solid var(--ks-pink);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: var(--transition);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-team:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.card-team-photo-wrap {
+  padding: 1.5rem 1.5rem 0;
+}
+
+/* Circular team photos — border-radius: 50% on a square element creates a circle.
+   object-fit: cover ensures the photo fills the circle without distortion. */
+.card-team-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Pastel background circles behind team photos — add visual variety while
+   staying within the soft, approachable brand palette */
+.bg-pastel-blue { background-color: #B8D4E3; }
+.bg-pastel-pink { background-color: #F0C4D8; }
+.bg-pastel-green { background-color: #C8DEC8; }
+
+/* flex: 1 pushes the body to fill remaining card height,
+   keeping content aligned across cards of different text lengths */
+.card-team-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-team-body h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--ks-pink);
+  margin-bottom: 0.25rem;
+}
+
+.card-team-body .role {
+  font-size: 0.9rem;
+  color: var(--ks-medium-gray);
+  margin-bottom: 1rem;
+}
+
+.card-team-body p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ks-dark);
+}
+
+/* ---- Donate Page ----
+   The donation toggle and amount buttons create a two-step flow:
+   1. Choose frequency (once / monthly)
+   2. Choose amount
+   This pattern reduces friction compared to a full form. */
+.donate-toggle {
+  display: flex;
+  border: 2px solid var(--ks-pink);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  max-width: 350px;
+}
+
+.donate-toggle button {
+  flex: 1;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: var(--ks-white);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+/* Active state fills the selected toggle option with the brand pink */
+.donate-toggle button.active {
+  background: var(--ks-pink);
+  color: var(--ks-white);
+}
+
+/* Amount buttons use flexbox wrap so they reflow on narrow screens */
+.amount-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.amount-btn {
+  border: 2px solid var(--ks-dark);
+  background: var(--ks-white);
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+/* Hover and active states share the same pink treatment for consistency */
+.amount-btn:hover,
+.amount-btn.active {
+  background: var(--ks-pink);
+  color: var(--ks-white);
+  border-color: var(--ks-pink);
+}
+
+/* Main donate CTA — full-width pill button, max-width prevents it from
+   becoming absurdly wide on large screens */
+.btn-donate-main {
+  background: var(--ks-pink);
+  color: var(--ks-white);
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 0.75rem 3rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 100%;
+  max-width: 380px;
+  transition: var(--transition);
+}
+
+.btn-donate-main:hover {
+  background: var(--ks-dark-pink);
+  color: var(--ks-white);
+}
+
+/* Containers for Change section — uses the orange accent colour to
+   visually differentiate this alternative donation method */
+.containers-section {
+  background: var(--ks-orange);
+  color: var(--ks-white);
+  padding: var(--section-py) 0;
+}
+
+.containers-section h2 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--ks-white);
+}
+
+/* ---- Projects Page ----
+   Project panels are image-based cards with overlay labels.
+   The subtle scale on hover gives a "zoom in" effect that
+   invites interaction without being distracting. */
+.project-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.project-panel img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-panel:hover img {
+  transform: scale(1.03);
+}
+
+/* Panel labels are positioned absolutely at the bottom of each project image.
+   Pink and orange variants match the two brand colours. */
+.project-panel .panel-label {
+  position: absolute;
+  bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--ks-white);
+  border-radius: var(--radius-sm);
+}
+
+.project-panel .panel-label.pink {
+  background: var(--ks-pink);
+  right: 1.5rem;
+}
+
+.project-panel .panel-label.orange {
+  background: var(--ks-orange);
+  left: 1.5rem;
+}
+
+/* Gallery grid — CSS Grid for equal-sized thumbnails.
+   3 columns on desktop, 2 on tablet, 1 on mobile (see responsive rules). */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.gallery-grid img:hover {
+  opacity: 0.85;
+}
+
+/* Support Network Accordion — customises Bootstrap's accordion component
+   to use the brand light-pink when expanded */
+.support-accordion .accordion-button {
+  font-weight: 600;
+  color: var(--ks-dark);
+}
+
+.support-accordion .accordion-button:not(.collapsed) {
+  background: var(--ks-light-pink);
+  color: var(--ks-pink);
+}
+
+/* ---- Sub-page Hero Panels ----
+   Used on projects detail pages. The negative margin on .subpage-content
+   pulls the content card up over the hero image, creating an overlapping
+   card-on-image layout from the Figma design. */
+.subpage-hero {
+  position: relative;
+}
+
+.subpage-hero img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.subpage-content {
+  padding: 2.5rem;
+  border-radius: var(--radius-card);
+  margin: -2rem 2rem 2rem; /* Negative top margin creates the overlap effect */
+  position: relative;
+  z-index: 1; /* Ensures the card sits above the hero image */
+}
+
+.subpage-content.pink-bg {
+  background: var(--ks-pink);
+  color: var(--ks-white);
+}
+
+.subpage-content.orange-bg {
+  background: var(--ks-orange);
+  color: var(--ks-white);
+}
+
+.subpage-content h2 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--ks-white);
+  text-align: left;
+}
+
+.subpage-content ul {
+  padding-left: 1.2rem;
+}
+
+.subpage-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+/* Circular donate button — used within project sub-pages as a secondary CTA.
+   The transparent background with white border keeps it visible over
+   both pink and orange backgrounds. */
+.btn-donate-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  color: var(--ks-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid var(--ks-white);
+  transition: var(--transition);
+  line-height: 1.3;
+}
+
+.btn-donate-circle:hover {
+  background: var(--ks-white);
+  color: var(--ks-pink);
+}
+
+/* ---- Contact Page ----
+   Form inputs share the same brand-coloured border treatment as the
+   newsletter form for consistency across the site. */
+.contact-form .form-control {
+  border: 2px solid var(--ks-pink);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem;
+}
+
+.contact-form .form-control:focus {
+  border-color: var(--ks-dark-pink);
+  box-shadow: 0 0 0 0.2rem rgba(212, 34, 120, 0.15);
+}
+
+.contact-form textarea {
+  min-height: 180px;
+}
+
+/* ---- Footer ----
+   Three-column footer with contact info, navigation, and Acknowledgement
+   of Country. The pink background ties it back to the brand. */
+.ks-footer {
+  background: var(--ks-pink);
+  color: var(--ks-white);
+  padding: 3rem 0 1.5rem;
+}
+
+.ks-footer h5 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ks-footer a {
+  color: var(--ks-white);
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.ks-footer a:hover {
+  color: var(--ks-light-pink);
+}
+
+.ks-footer p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 0.25rem;
+}
+
+/* Social media icons — circular white buttons that invert on hover.
+   Sized at 36px for comfortable tap targets on mobile (WCAG recommends 44px minimum,
+   but the surrounding padding brings the effective target area close). */
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ks-white);
+  color: var(--ks-dark);
+  margin-right: 0.5rem;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.footer-social a:hover {
+  background: var(--ks-dark-pink);
+  color: var(--ks-white);
+}
+
+/* Footer nav links — stacked vertically, no underline by default
+   (underline appears on hover for discoverability) */
+.footer-nav a {
+  display: block;
+  padding: 0.2rem 0;
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Acknowledgement of Country — required for Australian organisations
+   to respectfully recognise Traditional Owners */
+.footer-acknowledgement {
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* Aboriginal and Torres Strait Islander flags alongside the acknowledgement */
+.footer-flags img {
+  height: 40px;
+  margin-right: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Bottom bar — legal/copyright line, separated by a subtle white border */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.footer-bottom img {
+  height: 50px;
+  margin-top: 0.5rem;
+}
+
+/* ---- Lightbox ----
+   Full-screen image viewer for the gallery. Uses a fixed overlay with
+   z-index: 10000 to sit above everything including the Quick Exit bar.
+   The overlay starts hidden (display: none) and is toggled via JS. */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* Clicking the backdrop closes the lightbox */
+}
+
+.lightbox-overlay.active {
+  display: flex;
+}
+
+/* Constrain the lightbox image to 90% of viewport in both dimensions
+   so it never overflows the screen */
+.lightbox-overlay img {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: var(--ks-white);
+  font-size: 2rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* Prev/next navigation buttons — centred vertically with transform */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ks-white);
+  font-size: 2rem;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  padding: 1rem;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.lightbox-nav:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.lightbox-prev { left: 1rem; }
+.lightbox-next { right: 1rem; }
+
+/* ---- Scroll Animations ----
+   Elements with .fade-in start invisible and 20px below their final position.
+   When the IntersectionObserver in main.js adds .visible, they transition
+   into view. This creates a subtle "slide up and appear" effect as
+   users scroll down the page. */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Accessibility ----
+   These rules ensure the site is usable by keyboard-only users and
+   people with motion sensitivities. */
+
+/* Skip link — hidden off-screen by default, becomes visible on focus.
+   This lets keyboard users jump past the navigation directly to the
+   main content. Required for WCAG 2.1 Level A compliance (SC 2.4.1). */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--ks-pink);
+  color: var(--ks-white);
+  padding: 0.5rem 1rem;
+  z-index: 99999;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 0;
+  color: var(--ks-white);
+}
+
+/* Focus ring — a visible pink outline on keyboard focus. Uses :focus-visible
+   (not :focus) so the ring only appears for keyboard navigation,
+   not mouse clicks. 3px width and 2px offset ensure it's clearly visible. */
+*:focus-visible {
+  outline: 3px solid var(--ks-pink);
+  outline-offset: 2px;
+}
+
+/* Reduced motion — respects the user's OS-level preference for reduced motion
+   (WCAG 2.1 Level AAA, SC 2.3.3). Disables all animations and transitions
+   so the page is fully static for users who experience motion sickness
+   or vestibular disorders. The .fade-in elements are shown immediately. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Responsive Breakpoints ----
+   These follow Bootstrap's breakpoint conventions:
+   - max-width: 991.98px = below Bootstrap's "lg" breakpoint (tablets and below)
+   - max-width: 767.98px = below Bootstrap's "md" breakpoint (phones)
+   - max-width: 575.98px = below Bootstrap's "sm" breakpoint (small phones)
+
+   The approach is desktop-first for layout (matching the Figma desktop designs)
+   with progressive reductions for smaller screens. */
+
+/* Tablet breakpoint — reduce type sizes and image heights,
+   switch gallery from 3-column to 2-column */
+@media (max-width: 991.98px) {
+  h1, .page-title { font-size: 2.2rem; }
+  h2 { font-size: 2rem; }
+  .hero img { height: 300px; }
+  .hero-tagline { font-size: 1.6rem; }
+  .project-panel img { height: 280px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Mobile breakpoint — significant layout changes:
+   - Logo centres and nav stacks vertically
+   - Hero box switches from desktop overlay to mobile block below image
+   - CTA row items stack with bottom borders instead of right borders
+   - Gallery becomes single-column
+   - Footer centres all content */
+@media (max-width: 767.98px) {
+  :root {
+    --section-py: 2.5rem; /* Tighter section spacing on mobile */
+  }
+  h1, .page-title { font-size: 1.8rem; }
+  h2 { font-size: 1.6rem; }
+  .ks-header .navbar-brand { margin: 0 auto; display: block; text-align: center; }
+  .ks-header .navbar-brand img { height: 100px; }
+  .ks-header .navbar { flex-wrap: wrap; justify-content: center; }
+  .mission-section h2 { text-align: center !important; }
+  .mission-section p { text-align: center; }
+  .hero { min-height: 300px; }
+  .hero img { height: 300px; }
+  .hero-overlay { padding: 1rem; }
+  .hero-tagline { font-size: 1.3rem; bottom: 1rem; left: 1rem; }
+  /* Swap hero box: hide the desktop overlay, show the mobile block */
+  .hero-box-desktop { display: none; }
+  .hero-box-mobile { display: block; margin: 0; border-radius: 0; padding: 1.5rem 2rem; }
+  .hero-tagline { font-size: 1.3rem; bottom: 1rem; left: 1rem; }
+  /* CTA row stacks vertically with horizontal dividers */
+  .cta-row .cta-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .cta-row .cta-item:last-child { border-bottom: none; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .card-team-photo { width: 150px; height: 150px; }
+  .subpage-content { margin: -1rem 1rem 1rem; padding: 1.5rem; }
+  .project-panel img { height: 220px; }
+  .project-panel .panel-label { font-size: 1.3rem; }
+  .ks-footer { text-align: center; }
+  .footer-nav, .footer-social { margin-bottom: 1.5rem; }
+}
+
+/* Small phone breakpoint — final adjustments for very narrow screens */
+@media (max-width: 575.98px) {
+  .btn-donate-nav { padding: 0.4rem 1rem !important; font-size: 0.85rem; }
+  .amount-buttons { justify-content: center; }
+  .donate-toggle { max-width: 100%; } /* Full-width toggle on small screens */
+}

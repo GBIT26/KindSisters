@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!-- Language set to en-AU (Australian English) for correct locale-specific
+     browser behaviour and screen reader pronunciation -->
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <!-- Viewport meta tag — essential for responsive design. Ensures the page
+       scales correctly on mobile devices rather than rendering at desktop width. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kind Sisters - Creating Space for Community</title>
+  <!-- Meta description — used by search engines for the snippet shown in results.
+       Kept under 160 characters and includes key terms for SEO. -->
+  <meta name="description" content="Kind Sisters is a grass-roots nonprofit organisation dedicated to serving vulnerable groups of people in the City of Stirling and surrounding areas in Perth, Western Australia.">
+
+  <!-- Bootstrap 5.3.2 CSS — loaded from CDN for caching benefits.
+       Provides the responsive grid system (container, row, col-*),
+       responsive navbar, and utility classes used throughout. -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts — preconnect hints tell the browser to establish early
+       connections to the font servers, reducing load time.
+       La Belle Aurore = handwritten headings, Open Sans = body text. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 — icon library used for social media icons in the footer -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS — loaded last so it can override Bootstrap defaults
+       with brand-specific styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Skip to Content Link (Accessibility)
+       Hidden off-screen until focused via keyboard Tab. Lets keyboard and
+       screen reader users bypass the navigation and jump straight to the
+       main content. Required for WCAG 2.1 Level A (Success Criterion 2.4.1). -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Quick Exit Button (Domestic Violence Safety Feature)
+       Fixed in the top-right corner of every page. Clicking immediately
+       navigates away to Google, and uses history.replaceState to remove
+       this site from the browser's Back button history.
+       This is standard practice for DV support websites — protects users
+       who may be monitored. The aria-label provides context for screen readers.
+       The href fallback ensures the link works even with JavaScript disabled. -->
+  <div class="quick-exit-bar">
+    <a href="https://www.google.com" class="btn-quick-exit" id="quickExit" aria-label="Quick exit - leaves this site immediately">Quick Exit</a>
+  </div>
+
+  <!-- ======== HEADER / NAVIGATION ========
+       Uses Bootstrap's responsive navbar component (navbar-expand-lg).
+       The nav collapses into a hamburger menu below the lg breakpoint (992px).
+       The container class centres and constrains the nav width. -->
+  <header class="ks-header">
+    <nav class="navbar navbar-expand-lg container">
+      <!-- Brand logo — links back to the homepage. Alt text describes
+           the organisation for screen readers. -->
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/logo/kind-sisters-logo.svg" alt="Kind Sisters - Creating Space for Community">
+      </a>
+      <!-- Hamburger toggle — only visible on mobile (below lg breakpoint).
+           data-bs-toggle and data-bs-target connect it to the collapsible nav.
+           ARIA attributes communicate the toggle state to assistive tech. -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Collapsible nav links — justify-content-end pushes links to the right.
+           The Donate link is styled as a CTA button (btn-donate-nav) to draw
+           attention and encourage donations. ms-lg-2 adds left margin on desktop only. -->
+      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+        <ul class="navbar-nav align-items-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link btn-donate-nav" href="donate.html">Donate</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ======== MAIN CONTENT ========
+       The <main> landmark with id="main-content" is the target for the
+       skip link above. Using semantic <main> helps screen readers identify
+       the primary content area of the page. -->
+  <main id="main-content">
+
+    <!-- Hero Section
+         Full-width banner image with overlaid text. loading="eager" on the hero
+         image ensures it loads immediately (not lazy-loaded) since it's above
+         the fold and critical for first paint. -->
+    <section class="hero">
+      <img src="assets/images/hero/women-cafe.jpg" alt="Kind Sisters community members sharing a warm moment at a cafe" loading="eager">
+      <!-- Desktop overlay — the pink semi-transparent box is positioned
+           absolutely over the hero image. On mobile this is hidden and
+           replaced by the mobile version below. -->
+      <div class="hero-overlay">
+        <div class="hero-box hero-box-desktop">
+          <p>A grass-roots nonprofit organisation dedicated to serving vulnerable groups of people and those suffering hardship in the City of Stirling and surrounding areas in Perth.</p>
+        </div>
+      </div>
+      <!-- Brand tagline — positioned at the bottom of the hero image with
+           a text-shadow for readability over the photo -->
+      <span class="hero-tagline">Creating space for community.</span>
+    </section>
+    <!-- Mobile hero box — sits below the hero image as a full-width block.
+         On mobile screens the overlay box would be too cramped and hard to read
+         over the photo, so this provides the same content in a more readable format.
+         Shown/hidden via CSS media queries in style.css. -->
+    <div class="hero-box hero-box-mobile">
+      <p>A grass-roots nonprofit organisation dedicated to serving vulnerable groups of people and those suffering hardship in the City of Stirling and surrounding areas in Perth.</p>
+    </div>
+
+    <!-- CTA Row — Three primary calls to action (Volunteer, Donate, Projects)
+         Uses Bootstrap's row/col-md-4 grid to create three equal columns on
+         tablet+ that stack vertically on mobile. g-0 removes Bootstrap's
+         default gutter spacing for edge-to-edge pink background. -->
+    <section class="cta-row">
+      <div class="container">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <a href="contact.html" class="cta-item">Volunteer with<br>Kind Sisters</a>
+          </div>
+          <div class="col-md-4">
+            <a href="donate.html" class="cta-item">Donate to<br>Kind Sisters</a>
+          </div>
+          <div class="col-md-4">
+            <a href="projects.html" class="cta-item">Projects &amp;<br>Events</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Mission Section
+         Two-column layout: text on left, image on right (col-lg-6 each).
+         fade-in class triggers the scroll animation via IntersectionObserver
+         in main.js. align-items-center vertically centres the text and image.
+         g-4 adds Bootstrap's standard gap between columns. -->
+    <section class="mission-section fade-in">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-6">
+            <h2>Our Mission</h2>
+            <p>At Kind Sisters, we believe that every woman deserves to feel seen, valued, and heard. Our initiatives are designed to foster confidence, connection, and growth, ensuring that no one has to navigate life's challenges alone. By bringing women together, we build networks of strength and solidarity that can transform both individuals and communities.</p>
+            <!-- Brushstroke CTA — styled with CSS to look like a hand-painted button.
+                 mt-3 adds top margin to separate it from the paragraph text. -->
+            <a href="donate.html" class="btn-brushstroke mt-3">Donate to Kind Sisters</a>
+          </div>
+          <div class="col-lg-6 text-center">
+            <img src="assets/images/hero/hands-hero.jpg" alt="Diverse hands coming together, symbolising community and support" class="img-fluid rounded" style="max-height: 300px; object-fit: cover; width: 100%;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stories of Hope (Testimonials)
+         Three testimonial cards in a Bootstrap row (col-md-4 = three columns).
+         Each card uses data-testimonial as a selector for the expand/collapse
+         JS in main.js. Cards function as an accordion — clicking one expands
+         it and collapses the others. -->
+    <section class="stories-section fade-in">
+      <div class="container">
+        <h2 class="section-title">Stories of Hope</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card-testimonial" data-testimonial>
+              <p class="testimonial-text">When my family first arrived in Perth, we had nothing. Kind Sisters provided us with essentials relief bags filled with food and hygiene products. It was the first time in months I felt like someone truly cared. They gave us more than supplies — they gave us hope and a sense of belonging in our new community.</p>
+              <p class="testimonial-name">Sarah M.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-testimonial" data-testimonial>
+              <p class="testimonial-text">I started volunteering with Kind Sisters after attending one of their Women's Community Connect events. The warmth and compassion I experienced was unlike anything I had seen before. Now I help pack relief bags every month and it has given me a real sense of purpose. These women are changing lives, one bag at a time.</p>
+              <p class="testimonial-name">Lisa T.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card-testimonial" data-testimonial>
+              <p class="testimonial-text">As a school support worker, I see the impact of Kind Sisters every week. Families who were struggling to put food on the table now receive regular essentials bags delivered with dignity and care. The children come to school ready to learn because their basic needs are being met. Kind Sisters is truly making a difference.</p>
+              <p class="testimonial-name">Rachel K.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Signup Section
+         Two-column layout matching the mission section pattern.
+         Form action points to Formspree for serverless form handling.
+         Labels are associated with inputs via for/id attributes for accessibility.
+         Both fields use the required attribute for native HTML5 validation. -->
+    <section class="newsletter-section fade-in">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-6">
+            <h2>Sign Up to Our Newsletter</h2>
+            <form class="mt-3" action="https://formspree.io/f/placeholder" method="POST">
+              <div class="mb-3">
+                <label for="nlName" class="form-label">Full Name:</label>
+                <input type="text" class="form-control" id="nlName" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="nlEmail" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="nlEmail" name="email" required>
+              </div>
+              <button type="submit" class="btn-submit">Submit</button>
+            </form>
+          </div>
+          <div class="col-lg-6 text-center">
+            <img src="assets/images/hero/kindness-pass-it-on.jpg" alt="Grandmother and grandchild sharing a warm moment" class="img-fluid rounded" style="max-height: 350px; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Corporate Sponsors Section
+         Lists sponsor names. justify-content-center on the row and col-md-4
+         creates a narrow, centred column for the sponsor list. -->
+    <section class="sponsors-section fade-in">
+      <div class="container">
+        <h2 class="section-title">Corporate Sponsors</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-4 text-center">
+            <p class="mb-1"><strong>SJM Bookkeeping Pty Ltd</strong></p>
+            <p class="mb-1"><strong>GBIT Automation</strong></p>
+            <p class="mb-1"><strong>Inner Wheel Society Scarborough</strong></p>
+            <p class="mb-1"><strong>Mens Shed Wanneroo</strong></p>
+            <p class="mb-1"><strong>Sisters of Charity Inc</strong></p>
+            <p class="mb-1"><strong>Street Smart Australia</strong></p>
+            <p class="mb-1"><strong>Sudbury Community House</strong></p>
+            <p class="mb-1"><strong>Relate Counselling</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======== FOOTER ========
+       Three-column layout using Bootstrap's grid (col-md-4).
+       Contains all required compliance elements for an Australian charity:
+       - Contact details and ABN (Australian Business Number)
+       - Charitable Collections Licence number (WA requirement)
+       - ACNC (Australian Charities and Not-for-profits Commission) badge
+       - Acknowledgement of Country with Aboriginal and Torres Strait Islander flags
+       - Copyright notice with the legal entity name -->
+  <footer class="ks-footer">
+    <div class="container">
+      <div class="row g-4">
+        <!-- ACNC Badge Column — standalone left column for charity certification -->
+        <div class="col-md-2 text-center text-md-start">
+          <img src="assets/images/icons/acnc-badge.jpg" alt="ACNC Registered Charity" style="height: 80px;">
+          <p class="mt-2" style="font-size: 0.75rem;">ABN: 66666996738<br>Charitable Collections Licence:<br>#CC23638</p>
+        </div>
+
+        <!-- Contact Column -->
+        <div class="col-md-3">
+          <h5>Contact Us</h5>
+          <p><a href="mailto:info@kindsisters.org.au">info@kindsisters.org.au</a></p>
+          <p>PO Box 647 Duncraig 6023</p>
+          <div class="footer-social mt-3">
+            <a href="https://www.facebook.com/kindsisterscommunity" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <!-- Navigation Column -->
+        <div class="col-md-3">
+          <h5>Navigation</h5>
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html">Contact</a>
+            <a href="donate.html">Donate</a>
+          </nav>
+        </div>
+
+        <!-- Acknowledgement of Country Column -->
+        <div class="col-md-4">
+          <p class="footer-acknowledgement">We at Kind Sisters acknowledge the Traditional Owners of the land we operate in, the Noongar People and the Traditional Custodians of our main place of work, the Whadjuk People.</p>
+          <p class="footer-acknowledgement">We pay respects to the Elders and leaders past, present and future for they hold the memories, the traditions and culture of this country.</p>
+          <div class="footer-flags">
+            <img src="assets/images/icons/aboriginal-flag.png" alt="Aboriginal Flag" loading="lazy">
+            <img src="assets/images/icons/torres-strait-flag.svg" alt="Torres Strait Islander Flag" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar — copyright notice with the full legal entity name -->
+      <div class="footer-bottom text-center">
+        <p>Australian Kind Sisters Ltd trading as Kind Sisters &copy; 2025</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Overlay (Gallery Image Viewer)
+       Present on every page so it's available when the gallery is loaded.
+       Starts hidden (display: none via CSS) and is activated by main.js
+       when a gallery image is clicked.
+       role="dialog" and aria-label make it accessible as a modal dialog.
+       Navigation buttons use semantic <button> elements with aria-labels. -->
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-label="Image viewer">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous image">&lsaquo;</button>
+    <img src="" alt="" id="lightboxImg">
+    <button class="lightbox-nav lightbox-next" aria-label="Next image">&rsaquo;</button>
+  </div>
+
+  <!-- Bootstrap JS Bundle — includes Popper.js for dropdowns/tooltips.
+       Loaded at the end of <body> so it doesn't block page rendering. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS — handles Quick Exit, testimonial accordion, scroll animations,
+       lightbox, form validation, and mobile nav behaviour -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<!-- Language set to en-AU for Australian English locale -->
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <!-- Responsive viewport — ensures proper scaling on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate - Kind Sisters</title>
+  <meta name="description" content="Donate to Kind Sisters and help support vulnerable people in the City of Stirling and surrounding areas in Perth, Western Australia.">
+
+  <!-- Bootstrap 5.3.2 CSS — provides grid system and responsive utilities -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts — preconnect for faster font loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 — social media icons in the footer -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS — brand styles layered on top of Bootstrap -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Skip to Content (Accessibility) — keyboard shortcut to bypass navigation -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Quick Exit Button (DV Safety Feature)
+       Always visible, fixed position. Navigates away immediately and
+       clears browser history to protect users in unsafe situations. -->
+  <div class="quick-exit-bar">
+    <a href="https://www.google.com" class="btn-quick-exit" id="quickExit" aria-label="Quick exit - leaves this site immediately">Quick Exit</a>
+  </div>
+
+  <!-- ======== HEADER / NAVIGATION ========
+       Identical header structure across all pages for consistent UX.
+       Bootstrap navbar-expand-lg collapses to hamburger on mobile. -->
+  <header class="ks-header">
+    <nav class="navbar navbar-expand-lg container">
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/logo/kind-sisters-logo.svg" alt="Kind Sisters - Creating Space for Community">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+        <ul class="navbar-nav align-items-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <!-- Donate link has .active class since we're on the donate page -->
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link btn-donate-nav active" href="donate.html">Donate</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ======== MAIN CONTENT ======== -->
+  <main id="main-content">
+
+    <!-- Page Title — uses the script font heading style -->
+    <h1 class="page-title">Donate to Kind Sisters</h1>
+
+    <!-- Donation Info Section
+         Explains where donations go and tax deductibility.
+         Reuses the mission-section class for consistent two-column layout. -->
+    <section class="mission-section fade-in">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-6 text-center">
+            <img src="assets/images/gallery/bags-ready-for-delivery.jpeg" alt="Donation bags ready for delivery to those in need" class="img-fluid rounded" style="max-height: 350px; object-fit: cover;">
+          </div>
+          <div class="col-lg-6">
+            <p>Kind Sisters donation write up &ndash; where donations are going.</p>
+            <p>Become a Friend of Kind Sisters with a monthly donation.</p>
+            <p>All donations of $2 or more are tax deductible. You can donate direct to our bank account below and also to our account at the Containers for Change project.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Donation Widget Section
+         The donation flow is a three-step process:
+         1. Select frequency (Once / Monthly) via the toggle buttons
+         2. Select amount ($10 / $25 / $50 / Other) via the amount buttons
+         3. Click "Donate" to proceed to Stripe checkout
+
+         This is a client-side widget — no server-side form processing needed.
+         The Stripe integration handles payment securely via redirect. -->
+    <section class="fade-in" style="padding: var(--section-py) 0;">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-6">
+            <!-- Frequency Toggle — switches between one-time and recurring donation.
+                 The active class is toggled by JS to show which option is selected. -->
+            <div class="donate-toggle mb-3">
+              <button type="button" id="donateOnce" class="active">Donate Once</button>
+              <button type="button" id="donateMonthly">Donate Monthly</button>
+            </div>
+
+            <!-- Amount Buttons — preset amounts for quick selection.
+                 data-amount attribute stores the dollar value, read by JS.
+                 $50 is pre-selected (active) as the default. -->
+            <div class="amount-buttons">
+              <button type="button" class="amount-btn" data-amount="10">$10</button>
+              <button type="button" class="amount-btn" data-amount="25">$25</button>
+              <button type="button" class="amount-btn active" data-amount="50">$50</button>
+              <button type="button" class="amount-btn" data-amount="other">Other..</button>
+            </div>
+
+            <!-- Custom Amount Input — hidden by default, revealed when "Other" is clicked.
+                 min="1" prevents zero or negative donations via HTML5 validation. -->
+            <div id="customAmountWrap" style="display:none" class="mb-3">
+              <label for="customAmount" class="form-label">Enter amount ($):</label>
+              <input type="number" class="form-control" id="customAmount" min="1" placeholder="Enter amount">
+            </div>
+
+            <!-- Donate Button — triggers the Stripe checkout flow via the
+                 inline script below. Not a form submit — handled entirely in JS. -->
+            <button type="button" class="btn-donate-main mb-2" id="stripeCheckoutBtn">Donate</button>
+            <p class="text-muted" style="font-size: 0.85rem;">Donations of $2 or more are tax deductible.</p>
+          </div>
+          <div class="col-lg-6 text-center">
+            <img src="assets/images/gallery/hamper.jpg" alt="Hygiene products hamper for families in need" class="img-fluid rounded" style="max-height: 350px; object-fit: cover;">
+            <p class="mt-2 text-muted" style="font-size: 0.9rem;">Provide a family with hygiene products with every $50 donation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Containers for Change Section
+         An alternative donation method — donors can recycle eligible containers
+         at collection points and credit the refund to Kind Sisters using
+         the Scheme ID. Orange background differentiates this from the
+         primary Stripe donation section above. -->
+    <section class="containers-section fade-in">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h2 style="text-align: left;">Containers for Change</h2>
+            <p style="font-size: 1.4rem; font-weight: 700;">ID: C11083530</p>
+            <p>Please quote our Scheme ID when depositing refundable containers.</p>
+          </div>
+          <div class="col-lg-5 text-center">
+            <img src="assets/images/partners/containers-for-change.jpg" alt="Containers for Change logo" class="img-fluid rounded" style="max-height: 200px; object-fit: contain; background: white; padding: 1rem; border-radius: 10px;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======== FOOTER ========
+       Same footer structure as all other pages — contact info, navigation,
+       Acknowledgement of Country, ABN, ACNC badge, and copyright. -->
+  <footer class="ks-footer">
+    <div class="container">
+      <div class="row g-4">
+        <!-- ACNC Badge Column — standalone left column for charity certification -->
+        <div class="col-md-2 text-center text-md-start">
+          <img src="assets/images/icons/acnc-badge.jpg" alt="ACNC Registered Charity" style="height: 80px;">
+          <p class="mt-2" style="font-size: 0.75rem;">ABN: 66666996738<br>Charitable Collections Licence:<br>#CC23638</p>
+        </div>
+
+        <!-- Contact Column -->
+        <div class="col-md-3">
+          <h5>Contact Us</h5>
+          <p><a href="mailto:info@kindsisters.org.au">info@kindsisters.org.au</a></p>
+          <p>PO Box 647 Duncraig 6023</p>
+          <div class="footer-social mt-3">
+            <a href="https://www.facebook.com/kindsisterscommunity" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <!-- Navigation Column -->
+        <div class="col-md-3">
+          <h5>Navigation</h5>
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html">Contact</a>
+            <a href="donate.html">Donate</a>
+          </nav>
+        </div>
+
+        <!-- Acknowledgement of Country Column -->
+        <div class="col-md-4">
+          <p class="footer-acknowledgement">We at Kind Sisters acknowledge the Traditional Owners of the land we operate in, the Noongar People and the Traditional Custodians of our main place of work, the Whadjuk People.</p>
+          <p class="footer-acknowledgement">We pay respects to the Elders and leaders past, present and future for they hold the memories, the traditions and culture of this country.</p>
+          <div class="footer-flags">
+            <img src="assets/images/icons/aboriginal-flag.png" alt="Aboriginal Flag" loading="lazy">
+            <img src="assets/images/icons/torres-strait-flag.svg" alt="Torres Strait Islander Flag" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar — copyright notice with the full legal entity name -->
+      <div class="footer-bottom text-center">
+        <p>Australian Kind Sisters Ltd trading as Kind Sisters &copy; 2025</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Overlay — shared component across all pages for gallery viewing -->
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-label="Image viewer">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous image">&lsaquo;</button>
+    <img src="" alt="" id="lightboxImg">
+    <button class="lightbox-nav lightbox-next" aria-label="Next image">&rsaquo;</button>
+  </div>
+
+  <!-- Bootstrap JS Bundle — loaded before custom scripts so Bootstrap
+       components (navbar collapse, etc.) are available -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS — shared site functionality (Quick Exit, nav, animations) -->
+  <script src="js/main.js"></script>
+
+  <!-- Stripe.js — Stripe's client-side library, loaded from their CDN.
+       This must be loaded from js.stripe.com (not self-hosted) to maintain
+       PCI compliance. It provides the Stripe() constructor used below. -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- Donate Page Interactions + Stripe Checkout
+       This inline script handles the donation-specific logic that only
+       applies to this page. It's inline rather than in main.js because:
+       1. It depends on Stripe.js being loaded (script order matters)
+       2. The STRIPE_CONFIG object contains deployment-specific values
+          that need to be easy to find and update -->
+  <script>
+    // ============================================================
+    // STRIPE CONFIGURATION
+    //
+    // This object centralises all Stripe-related settings in one place.
+    // To go live:
+    //   1. Replace publishableKey with your real Stripe publishable key
+    //      (starts with pk_live_ for production, pk_test_ for testing)
+    //   2. Create Payment Links in the Stripe Dashboard for each
+    //      amount/frequency combination and paste the URLs below
+    //   3. The fallbackUrl is the existing Kind Sisters Stripe link —
+    //      used when no specific Payment Link is configured
+    //
+    // IMPORTANT: Never put your SECRET key (sk_) in client-side code.
+    // Only the PUBLISHABLE key (pk_) is safe for the browser.
+    // ============================================================
+    const STRIPE_CONFIG = {
+      // publishableKey — identifies your Stripe account to the Stripe.js library.
+      // Used when creating a full Checkout Session (requires a server-side endpoint).
+      publishableKey: 'pk_test_REPLACE_WITH_YOUR_PUBLISHABLE_KEY',
+
+      // paymentLinks — pre-built Stripe Payment Links for each amount/frequency.
+      // Payment Links are the simplest Stripe integration: no server needed,
+      // just a URL redirect. Each link is created in the Stripe Dashboard
+      // and maps to a specific price (e.g. $10 one-time, $25 monthly, etc.)
+      paymentLinks: {
+        once: {
+          10:  'https://buy.stripe.com/REPLACE_ONCE_10',
+          25:  'https://buy.stripe.com/REPLACE_ONCE_25',
+          50:  'https://buy.stripe.com/REPLACE_ONCE_50',
+        },
+        monthly: {
+          10:  'https://buy.stripe.com/REPLACE_MONTHLY_10',
+          25:  'https://buy.stripe.com/REPLACE_MONTHLY_25',
+          50:  'https://buy.stripe.com/REPLACE_MONTHLY_50',
+        }
+      },
+
+      // fallbackUrl — the existing Kind Sisters general donation link.
+      // Used when the donor selects a custom amount or the specific
+      // Payment Links haven't been configured yet.
+      fallbackUrl: 'https://buy.stripe.com/5kAaFXcdCgxOcLuaEE',
+
+      // successUrl / cancelUrl — where Stripe redirects after payment.
+      // The ?donation=success and ?donation=cancelled query parameters
+      // are read by the URL handler below to show confirmation messages.
+      successUrl: window.location.origin + '/donate.html?donation=success',
+      cancelUrl: window.location.origin + '/donate.html?donation=cancelled'
+    };
+
+    // ============================================================
+    // DONATION FORM LOGIC
+    //
+    // The donation flow works in three steps:
+    // 1. User selects frequency (once/monthly) via the toggle
+    // 2. User selects amount via preset buttons or enters a custom amount
+    // 3. User clicks "Donate" which redirects to the appropriate Stripe URL
+    // ============================================================
+
+    // -- Step 1: Frequency Toggle --
+    // Tracks which donation type is selected. Defaults to 'once'.
+    const donateOnce = document.getElementById('donateOnce');
+    const donateMonthly = document.getElementById('donateMonthly');
+    let donationType = 'once';
+
+    donateOnce.addEventListener('click', function() {
+      donateOnce.classList.add('active');
+      donateMonthly.classList.remove('active');
+      donationType = 'once';
+    });
+
+    donateMonthly.addEventListener('click', function() {
+      donateMonthly.classList.add('active');
+      donateOnce.classList.remove('active');
+      donationType = 'monthly';
+    });
+
+    // -- Step 2: Amount Selection --
+    // selectedAmount stores the chosen dollar value. Set to null when
+    // "Other" is selected, which triggers the custom input flow.
+    const amountBtns = document.querySelectorAll('.amount-btn');
+    const customWrap = document.getElementById('customAmountWrap');
+    let selectedAmount = 50; // Default matches the pre-selected $50 button
+
+    amountBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        // Deselect all buttons, then select the clicked one
+        amountBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        // Read the amount from the data-amount attribute
+        const amount = btn.getAttribute('data-amount');
+        if (amount === 'other') {
+          customWrap.style.display = 'block'; // Show the custom amount input
+          selectedAmount = null; // Will be read from the input on checkout
+        } else {
+          customWrap.style.display = 'none';
+          selectedAmount = parseInt(amount);
+        }
+      });
+    });
+
+    // -- Step 3: Checkout Handler --
+    // Determines the correct Stripe URL and redirects the user.
+    // Uses a three-tier fallback strategy:
+    //   1. Specific Payment Link for this amount/frequency (if configured)
+    //   2. Stripe.js Checkout Session (if publishable key is set — needs server)
+    //   3. General fallback donation link (always works)
+    const checkoutBtn = document.getElementById('stripeCheckoutBtn');
+    checkoutBtn.addEventListener('click', function() {
+      // Resolve the donation amount
+      let amount = selectedAmount;
+      if (!amount) {
+        // "Other" was selected — read from the custom input
+        const customInput = document.getElementById('customAmount');
+        amount = parseInt(customInput.value);
+        if (!amount || amount < 1) {
+          // Validate: must be a positive number
+          customInput.classList.add('is-invalid');
+          customInput.focus();
+          return;
+        }
+        customInput.classList.remove('is-invalid');
+      }
+
+      // Tier 1: Check for a pre-configured Payment Link for this exact amount
+      const links = STRIPE_CONFIG.paymentLinks[donationType];
+      const paymentUrl = links && links[amount];
+
+      if (paymentUrl && !paymentUrl.includes('REPLACE')) {
+        // Payment Link is configured — redirect directly to Stripe
+        window.location.href = paymentUrl;
+      } else if (!STRIPE_CONFIG.publishableKey.includes('REPLACE')) {
+        // Tier 2: Stripe.js Checkout — requires a server-side endpoint
+        // to create a Checkout Session. This path is shown as a placeholder
+        // for future full integration.
+        const stripe = Stripe(STRIPE_CONFIG.publishableKey);
+        console.log('Stripe Checkout would open for $' + amount + ' (' + donationType + ')');
+        alert('Stripe integration ready. Amount: $' + amount + ' (' + donationType + '). Connect your Stripe keys to go live.');
+      } else {
+        // Tier 3: Fallback — redirect to the existing general donation link.
+        // This ensures donations always work even before Stripe is fully configured.
+        window.location.href = STRIPE_CONFIG.fallbackUrl;
+      }
+    });
+
+    // ============================================================
+    // POST-PAYMENT URL PARAMETER HANDLING
+    //
+    // After a Stripe payment, the user is redirected back to this page
+    // with a query parameter indicating the result:
+    //   ?donation=success  — payment completed
+    //   ?donation=cancelled — user cancelled during checkout
+    //
+    // This reads the URL parameter and dynamically inserts an alert
+    // banner at the top of the page to confirm the outcome.
+    // Bootstrap's alert classes provide the styling.
+    // role="alert" ensures screen readers announce the message.
+    // ============================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('donation') === 'success') {
+      const successMsg = document.createElement('div');
+      successMsg.className = 'alert alert-success text-center mt-3';
+      successMsg.setAttribute('role', 'alert');
+      successMsg.innerHTML = '<strong>Thank you for your generous donation!</strong> A tax-deductible receipt has been sent to your email.';
+      document.querySelector('.container').prepend(successMsg);
+    } else if (urlParams.get('donation') === 'cancelled') {
+      const cancelMsg = document.createElement('div');
+      cancelMsg.className = 'alert alert-warning text-center mt-3';
+      cancelMsg.setAttribute('role', 'alert');
+      cancelMsg.innerHTML = 'Donation was cancelled. You can try again anytime.';
+      document.querySelector('.container').prepend(cancelMsg);
+    }
+  </script>
+
+</body>
+</html>
